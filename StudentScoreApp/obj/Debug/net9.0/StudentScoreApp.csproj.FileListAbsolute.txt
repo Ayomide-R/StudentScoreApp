@@ -1,0 +1,14 @@
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\bin\Debug\net9.0\StudentScoreApp.exe
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\bin\Debug\net9.0\StudentScoreApp.deps.json
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\bin\Debug\net9.0\StudentScoreApp.runtimeconfig.json
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\bin\Debug\net9.0\StudentScoreApp.dll
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\bin\Debug\net9.0\StudentScoreApp.pdb
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\StudentScoreApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\StudentScoreApp.AssemblyInfoInputs.cache
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\StudentScoreApp.AssemblyInfo.cs
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\StudentScoreApp.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\StudentScoreApp.dll
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\refint\StudentScoreApp.dll
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\StudentScoreApp.pdb
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\StudentScoreApp.genruntimeconfig.cache
+C:\Users\DELL\Desktop\C#\Projects\StudentScoreApp\obj\Debug\net9.0\ref\StudentScoreApp.dll
