@@ -1,195 +1,207 @@
-﻿using System; // For basic console input/output
-using System.Collections.Generic; // For List and Dictionary
-using System.Linq; // For using LINQ methods like Sum and Where
+﻿// A simple console app to manage student scores (written like a beginner)
+using System;
+using System.Collections.Generic;
 
-// Define a Student class to hold student data
-class Student
+namespace StudentScoreApp
 {
-    // Public properties of the student
-    public string Name { get; set; }         // Student's full name
-    public string ID { get; set; }           // Unique student ID
-    public Dictionary<string, int> Scores { get; set; } // Subject scores
-    public int Total { get; set; }           // Total score
-    public double Average { get; set; }      // Average score
-    public string Grade { get; set; }        // Grade based on average
-
-    // Constructor to initialize a student with name, ID, and scores
-    public Student(string name, string id, Dictionary<string, int> scores)
+    // Class to hold student information
+    class Student
     {
-        Name = name;
-        ID = id;
-        Scores = scores;
-
-        CalculateTotalAndAverage(); // Automatically calculate total and average
-        AssignGrade();              // Automatically assign grade
+        public string Name { get; set; } = string.Empty; // Student's name
+        public string ID { get; set; } = string.Empty;   // Student's ID
+        public Dictionary<string, int> Scores { get; set; } = new(); // Subjects and scores
+        public int Total { get; set; } // Total of all scores
+        public double Average { get; set; } // Average of scores
+        public string Grade { get; set; } = string.Empty; // Grade based on average
     }
 
-    // Method to calculate total and average
-    private void CalculateTotalAndAverage()
+    class Program
     {
-        Total = Scores.Values.Sum();                 // Add all subject scores
-        Average = (double)Total / Scores.Count;      // Divide total by number of subjects
-    }
+        // A list to store all student records
+        static List<Student> students = new List<Student>();
 
-    // Method to assign a grade based on the average
-    private void AssignGrade()
-    {
-        if (Average >= 70)
-            Grade = "A";
-        else if (Average >= 60)
-            Grade = "B";
-        else if (Average >= 50)
-            Grade = "C";
-        else if (Average >= 45)
-            Grade = "D";
-        else if (Average >= 40)
-            Grade = "E";
-        else
-            Grade = "F";
-    }
-}
+        // Subjects for which scores will be entered
+        static List<string> subjects = new List<string> { "Math", "English", "Science" };
 
-// Main class for the application
-class Program
-{
-    // List to store all students in memory
-    static List<Student> students = new List<Student>();
-
-    // Subjects to be used for each student
-    static string[] subjects = { "Math", "English", "Science" };
-
-    // Entry point of the program
-    static void Main(string[] args)
-    {
-        while (true) // Loop until the user chooses to exit
+        static void Main(string[] args)
         {
-            Console.Clear(); // Clear the console screen
-            Console.WriteLine("=== Student Score Management System ===");
-            Console.WriteLine("1. Add Student and Scores");
-            Console.WriteLine("2. View All Student Results");
-            Console.WriteLine("3. Search by ID or Name");
-            Console.WriteLine("4. Exit");
-            Console.Write("Choose an option (1-4): ");
-            string option = Console.ReadLine(); // Read user's choice
+            bool running = true; // To keep the app running until user chooses to exit
 
-            // Use switch to handle different menu options
-            switch (option)
+            // Keep showing menu until user exits
+            while (running)
             {
-                case "1":
-                    AddStudent(); // Call method to add a student
-                    break;
-                case "2":
-                    DisplayAllStudents(); // Call method to show all results
-                    break;
-                case "3":
-                    SearchStudent(); // Call method to search for a student
-                    break;
-                case "4":
-                    Console.WriteLine("Exiting application...");
-                    return; // Exit the program
-                default:
-                    Console.WriteLine("Invalid option. Press any key to try again.");
-                    Console.ReadKey(); // Wait for user to press a key
-                    break;
-            }
-        }
-    }
+                Console.WriteLine("\n=== STUDENT SCORE SYSTEM ===");
+                Console.WriteLine("1. Add Student and Scores");
+                Console.WriteLine("2. View All Student Results");
+                Console.WriteLine("3. Search Student by ID or Name");
+                Console.WriteLine("4. Exit");
+                Console.Write("Enter your choice: ");
 
-    // Method to add a new student
-    static void AddStudent()
-    {
-        Console.Clear(); // Clear screen
-        Console.WriteLine("Enter Student Details:");
-        Console.Write("Name: ");
-        string name = Console.ReadLine(); // Get student's name
-        Console.Write("ID: ");
-        string id = Console.ReadLine(); // Get student ID
+                string input = Console.ReadLine() ?? ""; // Get user choice, avoid null
+                Console.WriteLine(); // Empty line for better spacing
 
-        // Create a dictionary to hold subject scores
-        var scores = new Dictionary<string, int>();
-
-        // Loop through each subject to get scores
-        foreach (var subject in subjects)
-        {
-            int score;
-            while (true)
-            {
-                Console.Write($"{subject} Score: ");
-                // Try to parse input and ensure it's between 0 and 100
-                if (int.TryParse(Console.ReadLine(), out score) && score >= 0 && score <= 100)
-                    break;
-                else
-                    Console.WriteLine("Invalid input. Enter a score between 0 and 100.");
-            }
-            scores[subject] = score; // Add subject and score to dictionary
-        }
-
-        // Create a new student and add to the list
-        students.Add(new Student(name, id, scores));
-
-        Console.WriteLine("Student added successfully! Press any key to continue...");
-        Console.ReadKey(); // Wait for user to continue
-    }
-
-    // Method to display all student results
-    static void DisplayAllStudents()
-    {
-        Console.Clear(); // Clear screen
-
-        // Check if there are any students
-        if (students.Count == 0)
-        {
-            Console.WriteLine("No student data available.");
-        }
-        else
-        {
-            // Print table headers
-            Console.WriteLine("Student Results:");
-            Console.WriteLine("-------------------------------------------------------------------------------------");
-            Console.WriteLine("Name\tID\tMath\tEnglish\tScience\tTotal\tAverage\tGrade");
-            Console.WriteLine("-------------------------------------------------------------------------------------");
-
-            // Loop through each student and print their details
-            foreach (var s in students)
-            {
-                Console.WriteLine($"{s.Name}\t{s.ID}\t{s.Scores["Math"]}\t{s.Scores["English"]}\t{s.Scores["Science"]}\t{s.Total}\t{s.Average:F2}\t{s.Grade}");
+                // Handle user choice
+                switch (input)
+                {
+                    case "1":
+                        AddStudent();
+                        break;
+                    case "2":
+                        DisplayAllStudents();
+                        break;
+                    case "3":
+                        SearchStudent();
+                        break;
+                    case "4":
+                        running = false; // Stop the loop
+                        Console.WriteLine("Exiting application...");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Try again.");
+                        break;
+                }
             }
         }
 
-        Console.WriteLine("\nPress any key to return to menu...");
-        Console.ReadKey(); // Wait for user
-    }
-
-    // Method to search for a student by ID or Name
-    static void SearchStudent()
-    {
-        Console.Clear(); // Clear screen
-        Console.Write("Enter Student ID or Name to search: ");
-        string keyword = Console.ReadLine().ToLower(); // Read input and convert to lowercase
-
-        // Use LINQ to find matching students
-        var found = students.Where(s => s.ID.ToLower() == keyword || s.Name.ToLower().Contains(keyword)).ToList();
-
-        // Check if any results found
-        if (found.Count == 0)
+        // Method to add a new student and their scores
+        static void AddStudent()
         {
-            Console.WriteLine("Student not found.");
-        }
-        else
-        {
-            // Display matched results
-            Console.WriteLine("Search Results:");
-            Console.WriteLine("-------------------------------------------------------------------------------------");
-            Console.WriteLine("Name\tID\tMath\tEnglish\tScience\tTotal\tAverage\tGrade");
-            Console.WriteLine("-------------------------------------------------------------------------------------");
+            Console.Write("Enter Student Name: ");
+            string name = Console.ReadLine() ?? ""; // Get student name safely
 
-            foreach (var s in found)
+            Console.Write("Enter Student ID: ");
+            string id = Console.ReadLine() ?? ""; // Get student ID safely
+
+            Dictionary<string, int> scores = new Dictionary<string, int>(); // To hold scores for subjects
+
+            // Loop through each subject and get score
+            foreach (var subject in subjects)
             {
-                Console.WriteLine($"{s.Name}\t{s.ID}\t{s.Scores["Math"]}\t{s.Scores["English"]}\t{s.Scores["Science"]}\t{s.Total}\t{s.Average:F2}\t{s.Grade}");
+                int score;
+                while (true) // Loop until valid input
+                {
+                    Console.Write($"Enter score for {subject}: ");
+                    string scoreInput = Console.ReadLine() ?? ""; // Get score input
+
+                    // Try to convert score to int
+                    if (int.TryParse(scoreInput, out score) && score >= 0 && score <= 100)
+                    {
+                        scores[subject] = score; // Add score to dictionary
+                        break; // Break loop if valid
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid score. Enter a number between 0 and 100.");
+                    }
+                }
+            }
+
+            // Create new student object
+            Student student = new Student();
+            student.Name = name;
+            student.ID = id;
+            student.Scores = scores;
+            student.Total = CalculateTotal(scores); // Get total
+            student.Average = CalculateAverage(scores); // Get average
+            student.Grade = AssignGrade(student.Average); // Get grade
+
+            students.Add(student); // Add student to list
+
+            Console.WriteLine("Student added successfully.");
+        }
+
+        // Method to calculate total score
+        static int CalculateTotal(Dictionary<string, int> scores)
+        {
+            int total = 0; // Start from 0
+            foreach (var score in scores.Values)
+            {
+                total += score; // Add each subject score
+            }
+            return total; // Return total
+        }
+
+        // Method to calculate average
+        static double CalculateAverage(Dictionary<string, int> scores)
+        {
+            if (scores.Count == 0)
+                return 0; // Avoid division by 0
+
+            return (double)CalculateTotal(scores) / scores.Count; // Calculate average
+        }
+
+        // Method to assign grade based on average
+        static string AssignGrade(double average)
+        {
+            if (average >= 70) return "A";
+            else if (average >= 60) return "B";
+            else if (average >= 50) return "C";
+            else if (average >= 45) return "D";
+            else if (average >= 40) return "E";
+            else return "F";
+        }
+
+        // Method to display all students
+        static void DisplayAllStudents()
+        {
+            if (students.Count == 0)
+            {
+                Console.WriteLine("No student data available.");
+                return; // Exit method if no data
+            }
+
+            // Print table header
+            Console.WriteLine("Name\tID\t\tMath\tEnglish\tScience\tTotal\tAverage\tGrade");
+
+            // Loop through each student
+            foreach (var student in students)
+            {
+                Console.Write($"{student.Name}\t{student.ID}\t");
+
+                // Print subject scores
+                foreach (var subject in subjects)
+                {
+                    Console.Write($"{student.Scores.GetValueOrDefault(subject, 0)}\t");
+                }
+
+                // Print total, average and grade
+                Console.WriteLine($"{student.Total}\t{student.Average:F2}\t{student.Grade}");
             }
         }
 
-        Console.WriteLine("\nPress any key to return to menu...");
-        Console.ReadKey(); // Wait for user
+        // Method to search student by name or ID
+        static void SearchStudent()
+        {
+            Console.Write("Enter Student ID or Name to search: ");
+            string keyword = Console.ReadLine() ?? ""; // Get search keyword
+
+            // Try to find student that matches name or ID
+            var found = students.Find(s =>
+                s.ID.Equals(keyword, StringComparison.OrdinalIgnoreCase) ||
+                s.Name.Equals(keyword, StringComparison.OrdinalIgnoreCase));
+
+            // If found show details
+            if (found != null)
+            {
+                Console.WriteLine("\nStudent Found:");
+                Console.WriteLine($"Name: {found.Name}");
+                Console.WriteLine($"ID: {found.ID}");
+
+                // Print scores
+                foreach (var subject in subjects)
+                {
+                    Console.WriteLine($"{subject}: {found.Scores.GetValueOrDefault(subject, 0)}");
+                }
+
+                // Print totals
+                Console.WriteLine($"Total: {found.Total}");
+                Console.WriteLine($"Average: {found.Average:F2}");
+                Console.WriteLine($"Grade: {found.Grade}");
+            }
+            else
+            {
+                Console.WriteLine("Student not found.");
+            }
+        }
     }
 }
