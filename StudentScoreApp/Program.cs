@@ -1,7 +1,4 @@
-﻿// This is a beginner-friendly version of the Student Score App
-// It is written in a clear and simple style with lots of comments to aid understanding
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace StudentScoreApp
