@@ -27,10 +27,8 @@ namespace StudentScoreApp
 
         static void Main(string[] args)
         {
-            // Boolean to control menu loop
             bool running = true;
 
-            // Keep running until the user decides to exit
             while (running)
             {
                 Console.WriteLine("\nSTUDENT SCORE APPLICATION");
@@ -40,23 +38,23 @@ namespace StudentScoreApp
                 Console.WriteLine("4. Exit");
                 Console.Write("Choose an option (1-4): ");
 
-                string choice = Console.ReadLine() ?? ""; // Get user input for menu choice
+                string choice = Console.ReadLine() ?? "";
 
                 if (choice == "1")
                 {
-                    AddStudent(); // Add a new student
+                    AddStudent();
                 }
                 else if (choice == "2")
                 {
-                    ViewAllResults(); // Show all student results
+                    ViewAllResults();
                 }
                 else if (choice == "3")
                 {
-                    SearchStudent(); // Find a student by ID or Name
+                    SearchStudent();
                 }
                 else if (choice == "4")
                 {
-                    running = false; // Exit the application
+                    running = false;
                 }
                 else
                 {
@@ -73,17 +71,17 @@ namespace StudentScoreApp
             // Ask for the student's name and validate it
             while (true)
             {
-                Console.Write("Enter Student Name (letters only): ");
-                string name = Console.ReadLine() ?? ""; // Read input and ensure it's not null
+                Console.Write("Enter Student Name (letters and spaces only): ");
+                string name = Console.ReadLine() ?? "";
 
-                if (!string.IsNullOrWhiteSpace(name) && IsAllLetters(name))
+                if (!string.IsNullOrWhiteSpace(name) && IsValidName(name))
                 {
                     student.Name = name;
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid name. Only letters are allowed.");
+                    Console.WriteLine("Invalid name. Use letters and spaces only. Name cannot be empty or just spaces.");
                 }
             }
 
@@ -91,7 +89,7 @@ namespace StudentScoreApp
             while (true)
             {
                 Console.Write("Enter Unique Student ID: ");
-                string id = Console.ReadLine() ?? ""; // Read input and ensure it's not null
+                string id = Console.ReadLine() ?? "";
 
                 if (!string.IsNullOrWhiteSpace(id) && IsUniqueID(id))
                 {
@@ -110,7 +108,7 @@ namespace StudentScoreApp
                 while (true)
                 {
                     Console.Write($"Enter score for {subject} (0 - 100): ");
-                    string input = Console.ReadLine() ?? ""; // Read input and ensure it's not null
+                    string input = Console.ReadLine() ?? "";
 
                     if (int.TryParse(input, out int score) && score >= 0 && score <= 100)
                     {
@@ -124,40 +122,34 @@ namespace StudentScoreApp
                 }
             }
 
-            // Calculate the total score
+            // Calculate total and average
             int total = 0;
             foreach (var score in student.Scores.Values)
             {
                 total += score;
             }
             student.Total = total;
-
-            // Calculate average score
             student.Average = (double)total / subjects.Count;
-
-            // Assign grade based on average
             student.Grade = GetGrade(student.Average);
 
-            // Add the student to the list
             students.Add(student);
-
             Console.WriteLine("Student successfully added!\n");
         }
 
-        // Function to view all student results in table format
+        // Function to view all student results
         static void ViewAllResults()
         {
-            Console.WriteLine("\nName      ID       Math   English  Science  Total  Average  Grade");
-            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine("\nName           ID         Math     English  Science  Total  Average  Grade");
+            Console.WriteLine("--------------------------------------------------------------------------");
 
             foreach (var s in students)
             {
-                Console.Write(s.Name.PadRight(10));
-                Console.Write(s.ID.PadRight(9));
+                Console.Write(s.Name.PadRight(15));
+                Console.Write(s.ID.PadRight(10));
 
                 foreach (var subject in subjects)
                 {
-                    Console.Write(s.Scores[subject].ToString().PadRight(8));
+                    Console.Write(s.Scores[subject].ToString().PadRight(9));
                 }
 
                 Console.Write(s.Total.ToString().PadRight(7));
@@ -170,7 +162,7 @@ namespace StudentScoreApp
         static void SearchStudent()
         {
             Console.Write("Enter Student Name or ID to search: ");
-            string input = Console.ReadLine() ?? ""; // Read input and ensure it's not null
+            string input = Console.ReadLine() ?? "";
 
             bool found = false;
 
@@ -178,15 +170,15 @@ namespace StudentScoreApp
             {
                 if (s.Name.Equals(input, StringComparison.OrdinalIgnoreCase) || s.ID == input)
                 {
-                    Console.WriteLine("\nName      ID       Math   English  Science  Total  Average  Grade");
-                    Console.WriteLine("---------------------------------------------------------------");
+                    Console.WriteLine("\nName           ID         Math     English  Science  Total  Average  Grade");
+                    Console.WriteLine("--------------------------------------------------------------------------");
 
-                    Console.Write(s.Name.PadRight(10));
-                    Console.Write(s.ID.PadRight(9));
+                    Console.Write(s.Name.PadRight(15));
+                    Console.Write(s.ID.PadRight(10));
 
                     foreach (var subject in subjects)
                     {
-                        Console.Write(s.Scores[subject].ToString().PadRight(8));
+                        Console.Write(s.Scores[subject].ToString().PadRight(9));
                     }
 
                     Console.Write(s.Total.ToString().PadRight(7));
@@ -215,14 +207,15 @@ namespace StudentScoreApp
             else return "F";
         }
 
-        // Function to check if a string contains only letters
-        static bool IsAllLetters(string input)
+        // Function to check if a string contains only letters and spaces, and not just spaces
+        static bool IsValidName(string input)
         {
             foreach (char c in input)
             {
-                if (!char.IsLetter(c)) return false;
+                if (!(char.IsLetter(c) || c == ' '))
+                    return false;
             }
-            return true;
+            return input.Trim().Length > 0;
         }
 
         // Function to ensure the entered ID is unique

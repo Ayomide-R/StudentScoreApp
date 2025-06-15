@@ -1,0 +1,27 @@
+flowchart TD
+    A[Start] --> B[Show Main Menu]
+    B --> C{User Choice}
+    C -->|1| D[Add Student and Scores]
+    C -->|2| E[View All Student Results]
+    C -->|3| F[Search by ID or Name]
+    C -->|4| G[Exit]
+    C -->|Other| B
+
+    D --> D1[Prompt for Name (letters only)]
+    D1 --> D2[Prompt for Unique ID]
+    D2 --> D3[Prompt for Scores (Math, English, Science)]
+    D3 --> D4[Calculate Total, Average, Grade]
+    D4 --> D5[Add Student to List]
+    D5 --> B
+
+    E --> E1[Display All Students in Table]
+    E1 --> B
+
+    F --> F1[Prompt for Name or ID]
+    F1 --> F2{Found?}
+    F2 -->|Yes| F3[Display Student Info]
+    F2 -->|No| F4[Show 'Not Found']
+    F3 --> B
+    F4 --> B
+
+    G --> H[End]
